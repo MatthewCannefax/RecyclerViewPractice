@@ -12,11 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private LinkedList<String> mWordList = new LinkedList<>();
-
     private RecyclerView mRecyclerView;
     private WordListAdapter mAdapter;
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int wordListSize = mWordList.size();
+                int wordListSize = mWordList.size()+1;
 
                 //Add a new word to the wordList
                 mWordList.addLast(" + Word " + wordListSize);
@@ -53,12 +53,14 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+
     private LinkedList<String> getWordList(){
-        LinkedList<String> wordlist = new LinkedList<>();
-        for(int i = 0; i < 5; i++){
-            wordlist.addLast("Word " + i);
+        LinkedList<String> list = new LinkedList<>();
+        for(int i = 1; i<=10;i++){
+            list.addLast("Word " + i);
         }
-        return wordlist;
+
+        return list;
     }
 
     @Override
@@ -78,8 +80,9 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.reset) {
             mWordList = getWordList();
-            WordListAdapter adapter = new WordListAdapter(this, getWordList());
-            mRecyclerView.setAdapter(adapter);
+            mAdapter = new WordListAdapter(this, mWordList);
+            mRecyclerView.swapAdapter(mAdapter, true);
+            int i = 0;
             return false;
         }
 
